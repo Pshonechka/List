@@ -106,7 +106,7 @@ ListErr_t ListInsertBefore (List_t *list, size_t index, item_t el) {
     size_t ins_pos = list -> free;
     list -> free = list -> next[list -> free];
     list -> data[ins_pos] = el;
-   //  printf("!%lu\n", list -> prev[index]);
+    // printf("!%lu\n", list -> prev[index]);
   //  printf("!%lu\n", ins_pos);
     list -> prev[ins_pos] = list -> prev[index];
     list -> prev[index] = ins_pos;
