@@ -1,6 +1,6 @@
-ListDump called from main.cpp main: 21 
+ListDump called from list.cpp ListInit: 165 
 List is ok 
-list [0x7ffdafe0f370]
+list [0x7fff8c60d6f0]
 
 					         0      1      2      3      4
 data [0x504000000010] {   0.00    PZN    PZN    PZN    PZN}
@@ -14,9 +14,9 @@ capacity = 5
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from main.cpp main: 24 
+ListDump called from list.cpp ListInsertAfter: 67 
 List is ok 
-list [0x7ffdafe0f370]
+list [0x7fff8c60d6f0]
 
 					         0      1      2      3      4
 data [0x504000000010] {   0.00  10.00    PZN    PZN    PZN}
@@ -30,9 +30,9 @@ capacity = 5
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from main.cpp main: 27 
+ListDump called from list.cpp ListInsertAfter: 92 
 List is ok 
-list [0x7ffdafe0f370]
+list [0x7fff8c60d6f0]
 
 					         0      1      2      3      4
 data [0x504000000010] {   0.00  10.00  20.00    PZN    PZN}
@@ -46,9 +46,9 @@ capacity = 5
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from main.cpp main: 30 
+ListDump called from list.cpp ListInsertAfter: 92 
 List is ok 
-list [0x7ffdafe0f370]
+list [0x7fff8c60d6f0]
 
 					         0      1      2      3      4
 data [0x504000000010] {   0.00  10.00  20.00  30.00    PZN}
@@ -62,9 +62,9 @@ capacity = 5
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from main.cpp main: 33 
+ListDump called from list.cpp ListInsertAfter: 92 
 List is ok 
-list [0x7ffdafe0f370]
+list [0x7fff8c60d6f0]
 
 					         0      1      2      3      4      5      6      7      8      9
 data [0x507000000100] {   0.00  10.00  20.00  30.00  40.00    PZN    PZN    PZN    PZN    PZN}
@@ -78,9 +78,9 @@ capacity = 10
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from main.cpp main: 36 
+ListDump called from list.cpp ListInsertAfter: 92 
 List is ok 
-list [0x7ffdafe0f370]
+list [0x7fff8c60d6f0]
 
 					         0      1      2      3      4      5      6      7      8      9
 data [0x507000000100] {   0.00  10.00  20.00  30.00  40.00  50.00    PZN    PZN    PZN    PZN}
@@ -94,9 +94,9 @@ capacity = 10
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from main.cpp main: 39 
+ListDump called from list.cpp ListInsertAfter: 92 
 List is ok 
-list [0x7ffdafe0f370]
+list [0x7fff8c60d6f0]
 
 					         0      1      2      3      4      5      6      7      8      9
 data [0x507000000100] {   0.00  10.00  20.00  30.00  40.00  50.00  60.00    PZN    PZN    PZN}

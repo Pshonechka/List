@@ -6,17 +6,21 @@
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-#define LIST_OK(list)                                                                           \
-    do {                                                                                        \
-        ListErr_t err = ListVerify(list);                                                      \
-        if (err != SUCCESS_LIST) {                                                              \
-            DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,                        \
-                                    .macros_func = __func__, .macros_line = __LINE__};          \
-            ListDump (list, &dump_info);                                                        \
-            return err;                                                                         \
-        }                                                                                       \
-        DPRINTF("meow1\n");                                                                     \
-    } while (0)
+#ifdef LIST_DEBUG
+    #define LIST_OK(list)                                                                           \
+        do {                                                                                        \
+            ListErr_t err = ListVerify(list);                                                      \
+            if (err != SUCCESS_LIST) {                                                              \
+                DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,                        \
+                                        .macros_func = __func__, .macros_line = __LINE__};          \
+                ListDump (list, &dump_info);                                                        \
+                return err;                                                                         \
+            }                                                                                       \
+            DPRINTF("meow1\n");                                                                     \
+        } while (0)
+#else
+    #define  LIST_OK(...) ;
+#endif
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
@@ -58,6 +62,11 @@ ListErr_t ListInsertAfter (List_t *list, size_t index,  item_t el) {
         // Connect index_prev to current
         list -> prev[list -> next[index]] = ins_pos;  // list->prev[0] = ins_pos (set tail)
 
+        //list_dump
+        DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,
+                            .macros_func = __func__, .macros_line = __LINE__};
+        ListDump(list, &dump_info);
+
         return SUCCESS_LIST;
     }
 
@@ -76,9 +85,13 @@ ListErr_t ListInsertAfter (List_t *list, size_t index,  item_t el) {
     // Connect index_next to current
     list -> next[index] = ins_pos;
 
-    // TODO: Verify
-    // TODO: call dump
+
     LIST_OK(list);
+
+    DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,
+                            .macros_func = __func__, .macros_line = __LINE__};
+    ListDump(list, &dump_info);
+
     return SUCCESS_LIST;
 
 }
@@ -87,49 +100,13 @@ ListErr_t ListInsertAfter (List_t *list, size_t index,  item_t el) {
 
 ListErr_t ListInsertBefore (List_t *list, size_t index, item_t el) {
     LIST_OK(list);
+
     ListInsertAfter (list, list -> prev[index], el);
 
     LIST_OK(list);
 
     return SUCCESS_LIST;
 }
-//
-// // TODO: insert before = insert after(list->prev[index])
-// ListErr_t ListInsertBefore (List_t *list, size_t index, item_t el) {
-//     ListErr_t err = ListVerify (list);
-//     if (err != SUCCESS_LIST) {
-//         return err;
-//     }
-//     if (CompareDoubles (list -> data[index], POISON) == 0){
-//         return INDEX_NOT_IN_LIST;
-//     }
-//     if (index >= list -> capacity) {
-//         return INDEX_MORE_CAPACITY;
-//     }
-//     if (index == 0 || list -> tail == 0 || list -> head == 0) {
-//         return UNAVAILABLE_INDEX;
-//     }
-//     size_t ins_pos = list -> free;
-//     list -> free = list -> next[list -> free];
-//     list -> data[ins_pos] = el;
-//     // printf("!%lu\n", list -> prev[index]);
-//   //  printf("!%lu\n", ins_pos);
-//     list -> prev[ins_pos] = list -> prev[index];
-//     list -> prev[index] = ins_pos;
-//     list -> next[ins_pos] = index;
-//   //  printf("!%lu\n", list -> next[list -> prev[ins_pos]]);
-//     list -> next[list -> prev[ins_pos]] = ins_pos;
-//     list -> head = list -> next[0];
-//    // printf("!%lu\n", list -> next[index]);
-//     list -> size += 1;
-//     if (list -> size + 2 == list -> capacity) {
-//         if (ListRealloc (list) == NULL_DATA) {
-//             return NULL_DATA;
-//         }
-//     }
-//
-//     return SUCCESS_LIST;
-// }
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
@@ -182,6 +159,12 @@ ListErr_t ListInit (List_t *list, size_t capacity) {
     list -> next[list -> capacity - 1] = 0;
     list -> free = 1;
 
+    LIST_OK(list);
+
+    DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,
+                            .macros_func = __func__, .macros_line = __LINE__};
+    ListDump(list, &dump_info);
+
     return SUCCESS_LIST;
 }
 
@@ -231,6 +214,8 @@ ListErr_t ListVerify (List_t *list) {
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 ListErr_t ListRealloc (List_t *list) {
+    LIST_OK(list);
+
     list -> capacity = (list -> capacity) * 2;
 
     item_t *re_data = (item_t *) realloc (list -> data, (list -> capacity) * sizeof(item_t));
@@ -260,6 +245,8 @@ ListErr_t ListRealloc (List_t *list) {
     list -> next[list -> capacity - 1] = 0;
     list -> free = list -> size + 1;
 
+    LIST_OK(list);
+
     return SUCCESS_LIST;
 }
 
@@ -270,7 +257,6 @@ ListErr_t ListDump (List_t *list, DumpVars_t *dump_info) {
     calls_count++;
     ListErr_t err = ListVerify (list);
     const char *line = STR_ERRORS[err];
-    //ListErrToStr (err, &line);
 
     DPRINTF("calls = %d\n", calls_count);
 
@@ -300,13 +286,11 @@ ListErr_t ListDump (List_t *list, DumpVars_t *dump_info) {
     fprintf (fp, "\ndata [%p] {", list -> data);
     for (size_t i = 0; i < list -> capacity; i++) {
         fprintf (fp, CompareDoubles (list -> data[i], POISON) == 0 ? "    PZN" : SPEC, list -> data[i]);
-        //fprintf (fp, SPEC, list -> data[i]);
     }
 
     fprintf (fp, "}\nprev [%p] {", list -> prev);
     for (size_t i = 0; i < list -> capacity; i++) {
         fprintf (fp, list -> prev[i] == POISON_INT ? "    PZN" : "%7lu", list -> prev[i]);
-        //fprintf (fp, "%14lu", list -> prev[i]);
     }
 
     fprintf (fp, "}\nnext [%p] {", list -> next);
