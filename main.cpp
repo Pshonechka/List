@@ -32,7 +32,7 @@ int main() {
     ListInsertAfter (&list, 2, 40);
     dump_info = {.fp = NULL, .macros_file = __FILE__, .macros_func = __func__, .macros_line = __LINE__};
     ListDump(&list, &dump_info);
-    ListInsertAfter (&list, 2, 50);
+    ListInsertBefore (&list, 4, 50);
     dump_info = {.fp = NULL, .macros_file = __FILE__, .macros_func = __func__, .macros_line = __LINE__};
     ListDump(&list, &dump_info);
     ListInsertAfter (&list, 4, 60);

@@ -1,11 +1,27 @@
-ListDump called from main.cpp main: 22 
+ListDump called from main.cpp main: 21 
 List is ok 
-list [0x7ffef45e6530]
+list [0x7ffdafe0f370]
 
-					                0             1             2             3             4
-data [0x504000000010] {          0.00         10.00           PZN           PZN           PZN }
-prev [0x504000000090] {             1             1           PZN           PZN           PZN }
-next [0x504000000050] {             1             0             3             4             0 }
+					         0      1      2      3      4
+data [0x504000000010] {   0.00    PZN    PZN    PZN    PZN}
+prev [0x504000000090] {      0    PZN    PZN    PZN    PZN}
+next [0x504000000050] {      0      2      3      4      0}
+
+
+free = 1 
+size = 0 
+capacity = 5 
+
+//——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+ListDump called from main.cpp main: 24 
+List is ok 
+list [0x7ffdafe0f370]
+
+					         0      1      2      3      4
+data [0x504000000010] {   0.00  10.00    PZN    PZN    PZN}
+prev [0x504000000090] {      1      1    PZN    PZN    PZN}
+next [0x504000000050] {      1      0      3      4      0}
 
 
 free = 2 
@@ -14,14 +30,14 @@ capacity = 5
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from main.cpp main: 25 
+ListDump called from main.cpp main: 27 
 List is ok 
-list [0x7ffef45e6530]
+list [0x7ffdafe0f370]
 
-					                0             1             2             3             4
-data [0x504000000010] {          0.00         10.00         20.00           PZN           PZN }
-prev [0x504000000090] {             2             1             1           PZN           PZN }
-next [0x504000000050] {             1             2             0             4             0 }
+					         0      1      2      3      4
+data [0x504000000010] {   0.00  10.00  20.00    PZN    PZN}
+prev [0x504000000090] {      2      1      1    PZN    PZN}
+next [0x504000000050] {      1      2      0      4      0}
 
 
 free = 3 
@@ -30,14 +46,14 @@ capacity = 5
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from main.cpp main: 28 
+ListDump called from main.cpp main: 30 
 List is ok 
-list [0x7ffef45e6530]
+list [0x7ffdafe0f370]
 
-					                0             1             2             3             4
-data [0x504000000010] {          0.00         10.00         20.00         30.00           PZN }
-prev [0x504000000090] {             2             3             1             0           PZN }
-next [0x504000000050] {             3             2             0             1             0 }
+					         0      1      2      3      4
+data [0x504000000010] {   0.00  10.00  20.00  30.00    PZN}
+prev [0x504000000090] {      2      3      1      0    PZN}
+next [0x504000000050] {      3      2      0      1      0}
 
 
 free = 4 
@@ -46,14 +62,14 @@ capacity = 5
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from main.cpp main: 31 
+ListDump called from main.cpp main: 33 
 List is ok 
-list [0x7ffef45e6530]
+list [0x7ffdafe0f370]
 
-					                0             1             2             3             4             5             6             7             8             9
-data [0x507000000100] {          0.00         10.00         20.00         30.00         40.00           PZN           PZN           PZN           PZN           PZN }
-prev [0x507000000170] {             4             3             1             0             2           PZN           PZN           PZN           PZN           PZN }
-next [0x5070000001e0] {             3             2             4             1             0             6             7             8             9             0 }
+					         0      1      2      3      4      5      6      7      8      9
+data [0x507000000100] {   0.00  10.00  20.00  30.00  40.00    PZN    PZN    PZN    PZN    PZN}
+prev [0x507000000170] {      4      3      1      0      2    PZN    PZN    PZN    PZN    PZN}
+next [0x5070000001e0] {      3      2      4      1      0      6      7      8      9      0}
 
 
 free = 5 
@@ -62,14 +78,14 @@ capacity = 10
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from main.cpp main: 34 
+ListDump called from main.cpp main: 36 
 List is ok 
-list [0x7ffef45e6530]
+list [0x7ffdafe0f370]
 
-					                0             1             2             3             4             5             6             7             8             9
-data [0x507000000100] {          0.00         10.00         20.00         30.00         40.00         50.00           PZN           PZN           PZN           PZN }
-prev [0x507000000170] {             4             3             1             0             5             2           PZN           PZN           PZN           PZN }
-next [0x5070000001e0] {             3             2             5             1             0             4             7             8             9             0 }
+					         0      1      2      3      4      5      6      7      8      9
+data [0x507000000100] {   0.00  10.00  20.00  30.00  40.00  50.00    PZN    PZN    PZN    PZN}
+prev [0x507000000170] {      4      3      1      0      5      2    PZN    PZN    PZN    PZN}
+next [0x5070000001e0] {      3      2      5      1      0      4      7      8      9      0}
 
 
 free = 6 
@@ -78,14 +94,14 @@ capacity = 10
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from main.cpp main: 37 
+ListDump called from main.cpp main: 39 
 List is ok 
-list [0x7ffef45e6530]
+list [0x7ffdafe0f370]
 
-					                0             1             2             3             4             5             6             7             8             9
-data [0x507000000100] {          0.00         10.00         20.00         30.00         40.00         50.00         60.00           PZN           PZN           PZN }
-prev [0x507000000170] {             6             3             1             0             5             2             4           PZN           PZN           PZN }
-next [0x5070000001e0] {             3             2             5             1             6             4             0             8             9             0 }
+					         0      1      2      3      4      5      6      7      8      9
+data [0x507000000100] {   0.00  10.00  20.00  30.00  40.00  50.00  60.00    PZN    PZN    PZN}
+prev [0x507000000170] {      6      3      1      0      5      2      4    PZN    PZN    PZN}
+next [0x5070000001e0] {      3      2      5      1      6      4      0      8      9      0}
 
 
 free = 7 

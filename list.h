@@ -3,7 +3,7 @@
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-#define SPEC  "%14.2f"
+#define SPEC  "%7.2f"
 typedef double item_t;
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
@@ -30,9 +30,6 @@ typedef struct List {
     size_t size;
     size_t capacity;
     size_t free;
-    // TODO: delete
-    size_t head;
-    size_t tail;
     size_t *next;
     size_t *prev;
     item_t *data;
@@ -68,19 +65,19 @@ typedef enum ListErr {
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 char const * const STR_ERRORS[] = {
-    [SUCCESS_LIST] =        "List is ok",
-    [NULL_LIST] =           "List ptr is null",
-    [NULL_DATA] =           "Data is null",
-    [NULL_NEXT] =           "Next is null",
-    [NULL_PREV] =           "Prev is null",
-    [NULL_CAPACITY] =       "Capacity is null",
-    [CAPACITY_MORE_MAX] =   "Capacity more max",
-    [SIZE_MORE_MAX] =       "Size more max",
-    [SIZE_BIGGER_CAP] =     "Size bigger capacity",
-    [INDEX_NOT_IN_LIST] =   "Index not in list",
-    [INDEX_MORE_CAPACITY] = "Index more capacity",
-    [UNAVAILABLE_INDEX] =   "Unavailable index",
-    [OPENING_FILE] =        "Error in opening file"
+    [SUCCESS_LIST]          = "List is ok",
+    [NULL_LIST]             = "List ptr is null",
+    [NULL_DATA]             = "Data is null",
+    [NULL_NEXT]             = "Next is null",
+    [NULL_PREV]             = "Prev is null",
+    [NULL_CAPACITY]         = "Capacity is null",
+    [CAPACITY_MORE_MAX]     = "Capacity more max",
+    [SIZE_MORE_MAX]         = "Size more max",
+    [SIZE_BIGGER_CAP]       = "Size bigger capacity",
+    [INDEX_NOT_IN_LIST]     = "Index not in list",
+    [INDEX_MORE_CAPACITY]   = "Index more capacity",
+    [UNAVAILABLE_INDEX]     = "Unavailable index",
+    [OPENING_FILE]          = "Error in opening file"
 };
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
@@ -93,7 +90,6 @@ ListErr_t ListInsertBefore (List_t *list, size_t index, item_t el);
 ListErr_t ListVerify (List_t *list);
 ListErr_t ListRealloc (List_t *list);
 ListErr_t ListDump (List_t *list, DumpVars_t *dump_info);
-//int ListErrToStr (ListErr_t err, const char **line);
 
 
 #endif // LIST_H

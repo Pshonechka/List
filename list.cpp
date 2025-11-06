@@ -8,7 +8,7 @@
 
 #define LIST_OK(list)                                                                           \
     do {                                                                                        \
-        ListErr_t err = StackVerify(list);                                                      \
+        ListErr_t err = ListVerify(list);                                                      \
         if (err != SUCCESS_LIST) {                                                              \
             DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,                        \
                                     .macros_func = __func__, .macros_line = __LINE__};          \
@@ -21,11 +21,8 @@
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 ListErr_t ListInsertAfter (List_t *list, size_t index,  item_t el) {
-    ListErr_t err = ListVerify (list);
-    if (err != SUCCESS_LIST) {
-        // TODO: call dump with error
-        return err;
-    }
+    LIST_OK(list);
+
     if (index >= list -> capacity) {
         return INDEX_MORE_CAPACITY;
     }
@@ -81,49 +78,58 @@ ListErr_t ListInsertAfter (List_t *list, size_t index,  item_t el) {
 
     // TODO: Verify
     // TODO: call dump
-
+    LIST_OK(list);
     return SUCCESS_LIST;
 
 }
 
-//——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//—————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-// TODO: insert before = insert after(list->prev[index])
 ListErr_t ListInsertBefore (List_t *list, size_t index, item_t el) {
-    ListErr_t err = ListVerify (list);
-    if (err != SUCCESS_LIST) {
-        return err;
-    }
-    if (CompareDoubles (list -> data[index], POISON) == 0){
-        return INDEX_NOT_IN_LIST;
-    }
-    if (index >= list -> capacity) {
-        return INDEX_MORE_CAPACITY;
-    }
-    if (index == 0 || list -> tail == 0 || list -> head == 0) {
-        return UNAVAILABLE_INDEX;
-    }
-    size_t ins_pos = list -> free;
-    list -> free = list -> next[list -> free];
-    list -> data[ins_pos] = el;
-    // printf("!%lu\n", list -> prev[index]);
-  //  printf("!%lu\n", ins_pos);
-    list -> prev[ins_pos] = list -> prev[index];
-    list -> prev[index] = ins_pos;
-    list -> next[ins_pos] = index;
-  //  printf("!%lu\n", list -> next[list -> prev[ins_pos]]);
-    list -> next[list -> prev[ins_pos]] = ins_pos;
-    list -> head = list -> next[0];
-   // printf("!%lu\n", list -> next[index]);
-    list -> size += 1;
-    if (list -> size + 2 == list -> capacity) {
-        if (ListRealloc (list) == NULL_DATA) {
-            return NULL_DATA;
-        }
-    }
+    LIST_OK(list);
+    ListInsertAfter (list, list -> prev[index], el);
+
+    LIST_OK(list);
 
     return SUCCESS_LIST;
 }
+//
+// // TODO: insert before = insert after(list->prev[index])
+// ListErr_t ListInsertBefore (List_t *list, size_t index, item_t el) {
+//     ListErr_t err = ListVerify (list);
+//     if (err != SUCCESS_LIST) {
+//         return err;
+//     }
+//     if (CompareDoubles (list -> data[index], POISON) == 0){
+//         return INDEX_NOT_IN_LIST;
+//     }
+//     if (index >= list -> capacity) {
+//         return INDEX_MORE_CAPACITY;
+//     }
+//     if (index == 0 || list -> tail == 0 || list -> head == 0) {
+//         return UNAVAILABLE_INDEX;
+//     }
+//     size_t ins_pos = list -> free;
+//     list -> free = list -> next[list -> free];
+//     list -> data[ins_pos] = el;
+//     // printf("!%lu\n", list -> prev[index]);
+//   //  printf("!%lu\n", ins_pos);
+//     list -> prev[ins_pos] = list -> prev[index];
+//     list -> prev[index] = ins_pos;
+//     list -> next[ins_pos] = index;
+//   //  printf("!%lu\n", list -> next[list -> prev[ins_pos]]);
+//     list -> next[list -> prev[ins_pos]] = ins_pos;
+//     list -> head = list -> next[0];
+//    // printf("!%lu\n", list -> next[index]);
+//     list -> size += 1;
+//     if (list -> size + 2 == list -> capacity) {
+//         if (ListRealloc (list) == NULL_DATA) {
+//             return NULL_DATA;
+//         }
+//     }
+//
+//     return SUCCESS_LIST;
+// }
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
@@ -218,6 +224,7 @@ ListErr_t ListVerify (List_t *list) {
     if (list -> size > MAX_SIZE) {
         return SIZE_MORE_MAX;
     }
+
     return SUCCESS_LIST;
 }
 
@@ -225,21 +232,25 @@ ListErr_t ListVerify (List_t *list) {
 
 ListErr_t ListRealloc (List_t *list) {
     list -> capacity = (list -> capacity) * 2;
+
     item_t *re_data = (item_t *) realloc (list -> data, (list -> capacity) * sizeof(item_t));
     if (re_data == NULL) {
         return NULL_DATA;
     }
     list -> data = re_data;
+
     size_t *re_prev = (size_t *) realloc (list -> prev, (list -> capacity) * sizeof(size_t));
     if (re_prev == NULL) {
         return NULL_PREV;
     }
     list -> prev = re_prev;
+
     size_t *re_next = (size_t *) realloc (list -> next, (list -> capacity) * sizeof(size_t));
     if (re_next == NULL) {
         return NULL_NEXT;
     }
     list -> next = re_next;
+
     for (size_t i = list -> size + 1; i < list -> capacity; i++) {
         list -> data[i] = POISON;
         list -> prev[i] = POISON;
@@ -248,6 +259,7 @@ ListErr_t ListRealloc (List_t *list) {
 
     list -> next[list -> capacity - 1] = 0;
     list -> free = list -> size + 1;
+
     return SUCCESS_LIST;
 }
 
@@ -272,6 +284,7 @@ ListErr_t ListDump (List_t *list, DumpVars_t *dump_info) {
         fprintf (fp, "null list \n");
         return NULL_LIST;
     }
+
     fprintf (fp, "ListDump called from %s %s: %d \n%s \nlist [%p]\n\n",
              dump_info -> macros_file,
              dump_info -> macros_func,
@@ -281,34 +294,30 @@ ListErr_t ListDump (List_t *list, DumpVars_t *dump_info) {
 
     fprintf (fp, "\t\t\t\t\t   ");
     for (size_t i = 0; i < list -> capacity; i++) {
-        fprintf (fp, "%14lu", i);
+        fprintf (fp, "%7lu", i);
     }
-    fprintf (fp, "\n");
-    fprintf (fp, "data [%p] {", list -> data);
+
+    fprintf (fp, "\ndata [%p] {", list -> data);
     for (size_t i = 0; i < list -> capacity; i++) {
-        fprintf (fp, CompareDoubles (list -> data[i], POISON) == 0 ? "           PZN" : SPEC, list -> data[i]);
+        fprintf (fp, CompareDoubles (list -> data[i], POISON) == 0 ? "    PZN" : SPEC, list -> data[i]);
         //fprintf (fp, SPEC, list -> data[i]);
     }
-    fprintf (fp, " }\n");
 
-    fprintf (fp, "prev [%p] {", list -> prev);
+    fprintf (fp, "}\nprev [%p] {", list -> prev);
     for (size_t i = 0; i < list -> capacity; i++) {
-        fprintf (fp, list -> prev[i] == POISON_INT ? "           PZN" : "%14lu", list -> prev[i]);
+        fprintf (fp, list -> prev[i] == POISON_INT ? "    PZN" : "%7lu", list -> prev[i]);
         //fprintf (fp, "%14lu", list -> prev[i]);
     }
 
-    fprintf (fp, " }\n");
-
-    fprintf (fp, "next [%p] {", list -> next);
+    fprintf (fp, "}\nnext [%p] {", list -> next);
     for (size_t i = 0; i < list -> capacity; i++) {
-        fprintf (fp, "%14lu", list -> next[i]);
+        fprintf (fp, "%7lu", list -> next[i]);
     }
-    fprintf (fp, " }\n");
 
     if (list -> data == NULL) {
         return NULL_DATA;
     }
-    fprintf (fp, "\n\nfree = %lu \nsize = %lu \ncapacity = %lu \n\n"
+    fprintf (fp, "}\n\n\nfree = %lu \nsize = %lu \ncapacity = %lu \n\n"
     "//——————————————————————————————————————————————————————————————————————————————————————————————————————————————\n\n",
             list -> free,
             list -> size,
@@ -328,57 +337,3 @@ ListErr_t ListDump (List_t *list, DumpVars_t *dump_info) {
 
     return SUCCESS_LIST;
 }
-
-// //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
-//
-// // TODO: const array of strings
-// int ListErrToStr (ListErr_t err, const char **line) {
-//
-//     // *line = STR_ERRORS[i];
-//
-//     switch (err) {
-//         case NULL_LIST:
-//             *line = "NULL_LIST";
-//             break;
-//         case NULL_DATA:
-//             *line = "NULL_DATA";
-//             break;
-//         case NULL_PREV:
-//             *line = "NULL_PREV";
-//             break;
-//         case NULL_NEXT:
-//             *line = "NULL_NEXT";
-//             break;
-//         case NULL_CAPACITY:
-//             *line = "NULL_CAPACITY";
-//             break;
-//         case CAPACITY_MORE_MAX:
-//             *line = "CAPACITY_MORE_MAX";
-//             break;
-//         case SIZE_MORE_MAX:
-//             *line = "SIZE_MORE_MAX";
-//             break;
-//         case SIZE_BIGGER_CAP:
-//             *line = "SIZE_BIGGER_CAP";
-//             break;
-//         case INDEX_NOT_IN_LIST:
-//             *line = "INDEX_NOT_IN_LIST";
-//             break;
-//         case INDEX_MORE_CAPACITY:
-//             *line = "INDEX_MORE_CAPACITY";
-//             break;
-//         case UNAVAILABLE_INDEX:
-//             *line = "UNAVAILABLE_INDEX";
-//             break;
-//         case SUCCESS_LIST:
-//             *line = "SUCCESS_LIST";
-//             break;
-//         case OPENING_FILE:
-//             *line = "OPENING_FILE";
-//             break;
-//         default:
-//             *line = "meow";
-//             return 1;
-//     }
-//     return 0;
-// }
