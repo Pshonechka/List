@@ -41,28 +41,22 @@ ListErr_t ListInsertAfter (List_t *list, size_t index,  item_t el) {
     DPRINTF(SPEC"\n", el);
     list -> size += 1;
 
-    if (list -> free == 0) {
-        if (ListRealloc (list) == NULL_DATA) {
-            return NULL_DATA;
-        }
-    }
 
     if (list -> next[0] == 0) {
         DPRINTF("\n!1! "SPEC"\n", el);
-        list -> prev[0] = ins_pos;
+
+        // Connect index_prev to current
+        list -> prev[list -> next[index]] = ins_pos;  // list->prev[0] = ins_pos (set tail)
+
+        // Connect index_next to current
+        list -> next[index] = ins_pos; // NOTE: index может быть только = 0
 
         // Connect new element to prev and next
         list -> prev[ins_pos] = 0;
         list -> data[ins_pos] = el;
         list -> next[ins_pos] = 0;
 
-        // Connect index_next to current
-        list -> next[index] = ins_pos; // NOTE: index может быть только = 0
-
-        // Connect index_prev to current
-        list -> prev[list -> next[index]] = ins_pos;  // list->prev[0] = ins_pos (set tail)
-
-        //list_dump
+        // List dump
         DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,
                             .macros_func = __func__, .macros_line = __LINE__};
         ListDump(list, &dump_info);
@@ -85,12 +79,17 @@ ListErr_t ListInsertAfter (List_t *list, size_t index,  item_t el) {
     // Connect index_next to current
     list -> next[index] = ins_pos;
 
-
     LIST_OK(list);
 
     DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,
                             .macros_func = __func__, .macros_line = __LINE__};
     ListDump(list, &dump_info);
+
+    if (list -> free == 0) {
+        if (ListRealloc (list) == NULL_DATA) {
+            return NULL_DATA;
+        }
+    }
 
     return SUCCESS_LIST;
 
@@ -102,8 +101,6 @@ ListErr_t ListInsertBefore (List_t *list, size_t index, item_t el) {
     LIST_OK(list);
 
     ListInsertAfter (list, list -> prev[index], el);
-
-    LIST_OK(list);
 
     return SUCCESS_LIST;
 }
@@ -184,27 +181,90 @@ ListErr_t DestructorOfList (List_t *list) {
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 ListErr_t ListVerify (List_t *list) {
-// TODO: free;
+
     if (list == NULL) {
         return NULL_LIST;
     }
-// TODO: проверка массивов на логику
-    if (list -> data == NULL) {
+
+    size_t size = list -> size;
+    size_t capacity = list -> capacity;
+    size_t *next = list -> next;
+    size_t *prev = list -> prev;
+    item_t *data = list -> data;
+
+    if (data == NULL) {
         return NULL_DATA;
     }
-    if (list -> next == NULL) {
+    if (next == NULL) {
         return NULL_NEXT;
     }
-    if (list -> prev == NULL) {
+    if (prev == NULL) {
         return NULL_PREV;
     }
-    if (list -> size > list -> capacity) {
+
+    for (size_t i = 0; i < capacity; i++) {
+        if (prev[i] != POISON_INT && prev[i] > capacity) {
+            return PREV_WRONG_VALUE;
+        }
+        if (next[i] > capacity) {
+            return NEXT_WRONG_VALUE;
+        }
+    }
+    size_t *next_cnt = (size_t *) calloc((list -> capacity + 1), sizeof(size_t));
+    size_t *prev_cnt = (size_t *) calloc((list -> capacity + 1), sizeof(size_t));
+    size_t *next_poison_cnt = (size_t *) calloc((list -> capacity + 1), sizeof(size_t));
+
+    for (size_t i = 0; i < capacity; i++) {
+        if (CompareDoubles(data[i], POISON) == 0) {
+            next_poison_cnt[next[i]] += 1;
+        }
+        else {
+            next_cnt[next[i]] += 1;
+            prev_cnt[prev[i]] += 1;
+        }
+    }
+
+    for (size_t i = 0; i < capacity; i++) {
+
+        if (next_cnt[i] > 1) {
+            free(next_cnt);
+            free(prev_cnt);
+            free (next_poison_cnt);
+            return CYCLED_NEXT_VALUE;
+        }
+        if (prev_cnt[i] > 1) {
+            free(next_cnt);
+            free(prev_cnt);
+            free (next_poison_cnt);
+            return CYCLED_PREV_VALUE;
+        }
+        if (next_poison_cnt[i] > 1) {
+            free(next_cnt);
+            free(prev_cnt);
+            free (next_poison_cnt);
+            return CYCLED_FREE;
+        }
+    }
+
+    free(prev_cnt);
+    free(next_cnt);
+    free (next_poison_cnt);
+
+    for (size_t i = 0; i < capacity; i++) {
+        if (CompareDoubles(data[i], POISON) != 0) {
+            if (prev[next[i]] != next[prev[i]]) {
+                return INCORRECT_CONNECTIONS;
+            }
+        }
+    }
+
+    if (size > capacity) {
         return SIZE_BIGGER_CAP;
     }
-    if (list -> capacity > MAX_CAPACITY) {
+    if (capacity > MAX_CAPACITY) {
         return CAPACITY_MORE_MAX;
     }
-    if (list -> size > MAX_SIZE) {
+    if (size > MAX_SIZE) {
         return SIZE_MORE_MAX;
     }
 
@@ -306,17 +366,7 @@ ListErr_t ListDump (List_t *list, DumpVars_t *dump_info) {
             list -> free,
             list -> size,
             list -> capacity);
-    //fprintf (fp, "\n\thead = %lu", list -> head);
-    //fprintf (fp, "\n\ttail = %lu", list -> tail);
-    // fprintf (fp, "\n\tsize = %lu", list -> size);
-    // fprintf (fp, "\n\tcapacity = %lu \n", list -> capacity);
-    // fprintf (fp, "\n}");
-    // NOTE: fun fact
-    // fprintf (fp, R"(
-    // free = %lu
-    // head = %lu
-    // tail = %lu
-    // size = %lu)");
+
     fclose(fp);
 
     return SUCCESS_LIST;

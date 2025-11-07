@@ -59,25 +59,37 @@ typedef enum ListErr {
     INDEX_NOT_IN_LIST,
     INDEX_MORE_CAPACITY,
     UNAVAILABLE_INDEX,
-    OPENING_FILE
+    OPENING_FILE,
+    PREV_WRONG_VALUE,
+    NEXT_WRONG_VALUE,
+    CYCLED_FREE,
+    CYCLED_NEXT_VALUE,
+    CYCLED_PREV_VALUE,
+    INCORRECT_CONNECTIONS
 } ListErr_t;
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 char const * const STR_ERRORS[] = {
-    [SUCCESS_LIST]          = "List is ok",
-    [NULL_LIST]             = "List ptr is null",
-    [NULL_DATA]             = "Data is null",
-    [NULL_NEXT]             = "Next is null",
-    [NULL_PREV]             = "Prev is null",
-    [NULL_CAPACITY]         = "Capacity is null",
-    [CAPACITY_MORE_MAX]     = "Capacity more max",
-    [SIZE_MORE_MAX]         = "Size more max",
-    [SIZE_BIGGER_CAP]       = "Size bigger capacity",
-    [INDEX_NOT_IN_LIST]     = "Index not in list",
-    [INDEX_MORE_CAPACITY]   = "Index more capacity",
-    [UNAVAILABLE_INDEX]     = "Unavailable index",
-    [OPENING_FILE]          = "Error in opening file"
+    [SUCCESS_LIST]            = "List is ok",
+    [NULL_LIST]               = "List ptr is null",
+    [NULL_DATA]               = "Data is null",
+    [NULL_NEXT]               = "Next is null",
+    [NULL_PREV]               = "Prev is null",
+    [NULL_CAPACITY]           = "Capacity is null",
+    [CAPACITY_MORE_MAX]       = "Capacity more max",
+    [SIZE_MORE_MAX]           = "Size more max",
+    [SIZE_BIGGER_CAP]         = "Size bigger capacity",
+    [INDEX_NOT_IN_LIST]       = "Index not in list",
+    [INDEX_MORE_CAPACITY]     = "Index more capacity",
+    [UNAVAILABLE_INDEX]       = "Unavailable index",
+    [OPENING_FILE]            = "Error in opening file",
+    [PREV_WRONG_VALUE]        = "Prev[value] > capacity",
+    [NEXT_WRONG_VALUE]        = "Next[value] > capacity",
+    [CYCLED_FREE]             = "Several next[free] are equal",
+    [CYCLED_NEXT_VALUE]       = "Several next[value] are equal",
+    [CYCLED_PREV_VALUE]       = "Several prev[value] are equal",
+    [INCORRECT_CONNECTIONS]   = "Elements are connected only in one direction"
 };
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
