@@ -1,6 +1,6 @@
-ListDump called from list.cpp ListInit: 162 
-List is ok 
-list [0x7ffd858bd6c0]
+ListDump called from list.cpp ListInit: 197
+List is ok
+list [0x7ffc96f57d10]
 
 					         0      1      2      3      4
 data [0x504000000010] {   0.00    PZN    PZN    PZN    PZN}
@@ -8,15 +8,15 @@ prev [0x504000000090] {      0    PZN    PZN    PZN    PZN}
 next [0x504000000050] {      0      2      3      4      0}
 
 
-free = 1 
-size = 0 
-capacity = 5 
+free = 1
+size = 0
+capacity = 5
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from list.cpp ListInsertAfter: 61 
-List is ok 
-list [0x7ffd858bd6c0]
+ListDump called from list.cpp ListInsertAfter: 61
+List is ok
+list [0x7ffc96f57d10]
 
 					         0      1      2      3      4
 data [0x504000000010] {   0.00  10.00    PZN    PZN    PZN}
@@ -24,15 +24,15 @@ prev [0x504000000090] {      1      0    PZN    PZN    PZN}
 next [0x504000000050] {      1      0      3      4      0}
 
 
-free = 2 
-size = 1 
-capacity = 5 
+free = 2
+size = 1
+capacity = 5
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from list.cpp ListInsertAfter: 85 
-List is ok 
-list [0x7ffd858bd6c0]
+ListDump called from list.cpp ListInsertAfter: 85
+List is ok
+list [0x7ffc96f57d10]
 
 					         0      1      2      3      4
 data [0x504000000010] {   0.00  10.00  20.00    PZN    PZN}
@@ -40,15 +40,15 @@ prev [0x504000000090] {      2      0      1    PZN    PZN}
 next [0x504000000050] {      1      2      0      4      0}
 
 
-free = 3 
-size = 2 
-capacity = 5 
+free = 3
+size = 2
+capacity = 5
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from list.cpp ListInsertAfter: 85 
-List is ok 
-list [0x7ffd858bd6c0]
+ListDump called from list.cpp ListInsertAfter: 85
+List is ok
+list [0x7ffc96f57d10]
 
 					         0      1      2      3      4
 data [0x504000000010] {   0.00  10.00  20.00  30.00    PZN}
@@ -56,15 +56,15 @@ prev [0x504000000090] {      2      3      1      0    PZN}
 next [0x504000000050] {      3      2      0      1      0}
 
 
-free = 4 
-size = 3 
-capacity = 5 
+free = 4
+size = 3
+capacity = 5
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from list.cpp ListInsertAfter: 85 
-List is ok 
-list [0x7ffd858bd6c0]
+ListDump called from list.cpp ListInsertAfter: 85
+List is ok
+list [0x7ffc96f57d10]
 
 					         0      1      2      3      4
 data [0x504000000010] {   0.00  10.00  20.00  30.00  40.00}
@@ -72,41 +72,57 @@ prev [0x504000000090] {      2      3      1      4      0}
 next [0x504000000050] {      4      2      0      1      3}
 
 
-free = 0 
-size = 4 
-capacity = 5 
+free = 0
+size = 4
+capacity = 5
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from list.cpp ListInsertAfter: 85 
-List is ok 
-list [0x7ffd858bd6c0]
+ListDump called from list.cpp DeleteElementFromList: 137
+List is ok
+list [0x7ffc96f57d10]
 
 					         0      1      2      3      4      5      6      7      8      9
-data [0x507000000100] {   0.00  10.00  20.00  30.00  40.00  50.00    PZN    PZN    PZN    PZN}
-prev [0x507000000170] {      5      3      1      4      0      2    PZN    PZN    PZN    PZN}
-next [0x5070000001e0] {      4      2      5      1      3      0      7      8      9      0}
+data [0x507000000100] {   0.00  10.00    PZN  30.00  40.00    PZN    PZN    PZN    PZN    PZN}
+prev [0x507000000170] {      1      3    PZN      4      0    PZN    PZN    PZN    PZN    PZN}
+next [0x5070000001e0] {      4      0      5      1      3      6      7      8      9      0}
 
 
-free = 6 
-size = 5 
-capacity = 10 
+free = 2
+size = 4
+capacity = 10
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-ListDump called from list.cpp ListInsertAfter: 85 
-List is ok 
-list [0x7ffd858bd6c0]
+ListDump called from list.cpp ListInsertAfter: 85
+List is ok
+list [0x7ffc96f57d10]
 
 					         0      1      2      3      4      5      6      7      8      9
-data [0x507000000100] {   0.00  10.00  20.00  30.00  40.00  50.00  60.00    PZN    PZN    PZN}
-prev [0x507000000170] {      5      3      1      6      0      2      4    PZN    PZN    PZN}
-next [0x5070000001e0] {      4      2      5      1      6      0      3      8      9      0}
+data [0x507000000100] {   0.00  10.00  50.00  30.00  40.00    PZN    PZN    PZN    PZN    PZN}
+prev [0x507000000170] {      2      3      1      4      0    PZN    PZN    PZN    PZN    PZN}
+next [0x5070000001e0] {      4      2      0      1      3      6      7      8      9      0}
 
 
-free = 7 
-size = 6 
-capacity = 10 
+free = 5
+size = 5
+capacity = 10
+
+//——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+ListDump called from list.cpp ListInsertAfter: 85
+List is ok
+list [0x7ffc96f57d10]
+
+					         0      1      2      3      4      5      6      7      8      9
+data [0x507000000100] {   0.00  10.00  50.00  30.00  40.00  60.00    PZN    PZN    PZN    PZN}
+prev [0x507000000170] {      2      3      1      5      0      4    PZN    PZN    PZN    PZN}
+next [0x5070000001e0] {      4      2      0      1      5      3      7      8      9      0}
+
+
+free = 6
+size = 6
+capacity = 10
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 

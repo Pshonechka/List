@@ -99,6 +99,7 @@ int CompareDoubles (double a, double b);
 ListErr_t DestructorOfList (List_t *list);
 ListErr_t ListInsertAfter (List_t *list, size_t index, item_t el);
 ListErr_t ListInsertBefore (List_t *list, size_t index, item_t el);
+ListErr_t DeleteElementFromList (List_t *list, size_t index);
 ListErr_t ListVerify (List_t *list);
 ListErr_t ListRealloc (List_t *list);
 ListErr_t ListDump (List_t *list, DumpVars_t *dump_info);

@@ -11,6 +11,7 @@ int main() {
     ListInsertAfter (&list, 1, 20);
     ListInsertAfter (&list, 0, 30);
     ListInsertAfter (&list, 0, 40);
+    DeleteElementFromList (&list, 2);
     ListInsertBefore (&list, 0, 50);
     ListInsertAfter (&list, 4, 60);
 

@@ -107,6 +107,41 @@ ListErr_t ListInsertBefore (List_t *list, size_t index, item_t el) {
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
+ListErr_t DeleteElementFromList (List_t *list, size_t index) {
+    LIST_OK(list);
+    if (index >= list -> capacity) {
+        return INDEX_MORE_CAPACITY;
+    }
+    if (index < 1) {
+        return UNAVAILABLE_INDEX;
+    }
+    if (CompareDoubles (list -> data[index], POISON) == 0){
+        return INDEX_NOT_IN_LIST;
+    }
+
+    // Connect prev[ind] and next_ind with each other
+    list -> next[list -> prev[index]] = list -> next[index];
+    list -> prev[list -> next[index]] = list -> prev[index];
+
+    // Set new free
+    list -> next[index] = list -> free;
+    list -> free = index;
+
+    // Poison deleted element
+    list -> data[index] = POISON;
+    list -> prev[index] = POISON;
+
+    LIST_OK(list);
+
+    DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,
+                            .macros_func = __func__, .macros_line = __LINE__};
+    ListDump(list, &dump_info);
+
+    return SUCCESS_LIST;
+}
+
+//——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
 int CompareDoubles (double a, double b) {
     if (fabs(a-b) < EPS) {
         return 0;
