@@ -35,6 +35,22 @@
 #else
     #define  LIST_OK(...) ;
 #endif
+
+//——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+#ifdef LIST_DUMP
+    #define DUMP_LIST(list)                                                                         \
+            do {                                                                                        \
+                DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,                            \
+                                            .macros_func = __func__, .macros_line = __LINE__};          \
+                ListDump (list, &dump_info);                                                            \
+                GraphDump (list);                                                                       \
+            }                                                                                           \
+            while (0)
+#else
+    #define  DUMP_LIST(...) ;
+#endif
+
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 ListErr_t ListInsertAfter (List_t *list, size_t index,  item_t el) {
@@ -76,11 +92,7 @@ ListErr_t ListInsertAfter (List_t *list, size_t index,  item_t el) {
         list -> data[ins_pos] = el;
         list -> next[ins_pos] = 0;
 
-        // List dump
-        DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,
-                            .macros_func = __func__, .macros_line = __LINE__};
-        ListDump(list, &dump_info);
-        GraphDump (list);
+        DUMP_LIST(list);
 
         return SUCCESS_LIST;
     }
@@ -100,10 +112,7 @@ ListErr_t ListInsertAfter (List_t *list, size_t index,  item_t el) {
 
     LIST_OK(list);
 
-    DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,
-                            .macros_func = __func__, .macros_line = __LINE__};
-    ListDump(list, &dump_info);
-    GraphDump (list);
+    DUMP_LIST(list);
 
     return SUCCESS_LIST;
 }
@@ -147,10 +156,7 @@ ListErr_t DeleteElementFromList (List_t *list, size_t index) {
 
     LIST_OK(list);
 
-    DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,
-                            .macros_func = __func__, .macros_line = __LINE__};
-    ListDump(list, &dump_info);
-    GraphDump (list);
+    DUMP_LIST(list);
 
     return SUCCESS_LIST;
 }
@@ -208,9 +214,7 @@ ListErr_t ListInit (List_t *list, size_t capacity) {
 
     LIST_OK(list);
 
-    DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,
-                            .macros_func = __func__, .macros_line = __LINE__};
-    ListDump(list, &dump_info);
+    DUMP_LIST(list);
 
     return SUCCESS_LIST;
 }
@@ -358,10 +362,6 @@ ListErr_t ListRealloc (List_t *list) {
 
     DPRINTF("after realloc: free = %zu;\n", list->free);
     LIST_OK(list);
-
-    DumpVars_t dump_info = {.fp = NULL, .macros_file = __FILE__,
-                            .macros_func = __func__, .macros_line = __LINE__};
-    ListDump(list, &dump_info);
 
     return SUCCESS_LIST;
 }
