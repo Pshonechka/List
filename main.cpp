@@ -5,7 +5,7 @@
 
 int main() {
     List_t list = {};
-    ListInit (&list, 4);
+    ListInit (&list, 0);
 
     ListInsertAfter (&list, 0, 10);
     ListInsertAfter (&list, 1, 20);

@@ -1,5 +1,0 @@
-digraph G {
-    node_name1 [style="filled", fillcolor="#640000"];
-    node_name2;
-    node_name1->node_name2;
-}

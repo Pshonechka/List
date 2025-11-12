@@ -3,13 +3,14 @@
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-#define SPEC  "%7.2f"
+#define SPEC        "%7.2f"
+#define SPEC_GRAPH  "%2.2f"
 typedef double item_t;
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 #ifdef LIST_DEBUG
-    #define DPRINTF(...) printf(__VA_ARGS__)
+    #define DPRINTF(...) fprintf(stderr, __VA_ARGS__)
 #else
     #define DPRINTF(...) ;
 #endif
@@ -18,9 +19,7 @@ typedef double item_t;
 
 const int    POISON_INT   = 0xBEBEBE;
 const item_t POISON       = POISON_INT;
-const size_t MIN_CAPACITY = 5;
-const size_t MAX_CAPACITY = 100000;
-const size_t MAX_SIZE     = 100000;
+
 
 const double EPS = 1e-5;
 
@@ -52,9 +51,9 @@ typedef enum ListErr {
     NULL_DATA,
     NULL_NEXT,
     NULL_PREV,
+    FREE_MORE_CAPACITY,
     NULL_CAPACITY,
-    CAPACITY_MORE_MAX,
-    SIZE_MORE_MAX,
+    NULL_FILE,
     SIZE_BIGGER_CAP,
     INDEX_NOT_IN_LIST,
     INDEX_MORE_CAPACITY,
@@ -70,15 +69,15 @@ typedef enum ListErr {
 
 //——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-char const * const STR_ERRORS[] = {
+char const * const LIST_STR_ERRORS[] = {
     [SUCCESS_LIST]            = "List is ok",
     [NULL_LIST]               = "List ptr is null",
     [NULL_DATA]               = "Data is null",
     [NULL_NEXT]               = "Next is null",
     [NULL_PREV]               = "Prev is null",
+    [FREE_MORE_CAPACITY]      = "Free more capacity",
     [NULL_CAPACITY]           = "Capacity is null",
-    [CAPACITY_MORE_MAX]       = "Capacity more max",
-    [SIZE_MORE_MAX]           = "Size more max",
+    [NULL_FILE]               = "Null pointer to file",
     [SIZE_BIGGER_CAP]         = "Size bigger capacity",
     [INDEX_NOT_IN_LIST]       = "Index not in list",
     [INDEX_MORE_CAPACITY]     = "Index more capacity",
@@ -103,6 +102,11 @@ ListErr_t DeleteElementFromList (List_t *list, size_t index);
 ListErr_t ListVerify (List_t *list);
 ListErr_t ListRealloc (List_t *list);
 ListErr_t ListDump (List_t *list, DumpVars_t *dump_info);
-
+ListErr_t GraphDump (List_t *list);
+ListErr_t MakeNode(List_t *list, size_t index, FILE *fp);
+ListErr_t InvisibleConnections (List_t *list, FILE *fp);
+ListErr_t NextConnections (List_t *list, FILE *fp);
+ListErr_t PrevConnections (List_t *list, FILE *fp);
+ListErr_t HeadTail (List_t *list, FILE *fp);
 
 #endif // LIST_H
